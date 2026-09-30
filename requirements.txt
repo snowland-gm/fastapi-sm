@@ -1,0 +1,5 @@
+# 必装依赖（核心运行时）
+# - fastapi：框架本体
+# - snowland-jwt：统一加解密后端 CryptoBackend 的基类来源（SM3/SM2 接口契约）
+fastapi>=0.100
+snowland-jwt

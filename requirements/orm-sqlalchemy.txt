@@ -1,0 +1,3 @@
+# 可选：SQLAlchemy 适配层
+# 提供 fastapi_sm.database.sqlalchemy（Base/User/EncryptedString）。
+sqlalchemy>=2.0

@@ -1,0 +1,3 @@
+# 可选：国密后端（gmssl-pyx）
+# gmssl-pyx 提供 libgmssl 原生绑定后端，SM4/SM2 函数式 API。
+gmssl-pyx

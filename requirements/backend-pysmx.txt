@@ -1,0 +1,3 @@
+# 可选：国密后端（非对称优先 pysmx）
+# snowland-smx 提供 pysmx 后端，SM2 加解密/签名使用类式 API。
+snowland-smx

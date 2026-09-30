@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastapi-sm"
+version = { from = "fastapi_sm/__init__.py" }
+description = "FastAPI-friendly Chinese national cryptography (SM2/SM3/SM4) toolkit with unified backends, password hashing and transparent encrypted fields."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "BSD" }
+authors = [{ name = "A.Star" }]
+keywords = ["fastapi", "sm2", "sm3", "sm4", "gmssl", "national-cryptography", "password-hashing"]
+classifiers = [
+    "Framework :: FastAPI",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security :: Cryptography",
+]
+
+# 必装依赖：FastAPI 与统一后端的基类来源（snowland-jwt）。
+dependencies = [
+    "fastapi>=0.100",
+    "snowland-jwt",
+]
+
+[project.optional-dependencies]
+# 国密底层后端（二选一，非对称优先 pysmx）
+pysmx = ["snowland-smx"]
+gmssl = ["gmssl-pyx"]
+# ORM 适配层（按需）
+sqlalchemy = ["sqlalchemy>=2.0"]
+tortoise = ["tortoise-orm>=0.20"]
+# 同时装齐所有可选能力
+all = ["snowland-smx", "gmssl-pyx", "sqlalchemy>=2.0", "tortoise-orm>=0.20"]
+
+[project.urls]
+Homepage = "https://github.com/astar/fastapi-sm"
+
+[tool.setuptools.packages.find]
+include = ["fastapi_sm*"]

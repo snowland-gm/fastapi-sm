@@ -8,11 +8,13 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # ubuntu-22.04 仍提供 Python 3.9 的预编译构建；更新的 Ubuntu 镜像
+    # （如 26.04）已不再提供 3.9，会触发 setup-python 找不到版本的错误。
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - name: Checkout

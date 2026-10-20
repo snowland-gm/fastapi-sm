@@ -7,7 +7,7 @@ name = "fastapi-sm"
 dynamic = ["version"]
 description = "FastAPI-friendly Chinese national cryptography (SM2/SM3/SM4) toolkit with unified backends, password hashing and transparent encrypted fields."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = { text = "BSD" }
 authors = [{ name = "A.Star" }]
 keywords = ["fastapi", "sm2", "sm3", "sm4", "gmssl", "national-cryptography", "password-hashing"]

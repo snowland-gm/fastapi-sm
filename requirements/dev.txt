@@ -1,3 +1,4 @@
 # 可选：开发 / 运行期便利依赖（测试、启动）
+pytest>=7
 uvicorn>=0.20
 python-multipart

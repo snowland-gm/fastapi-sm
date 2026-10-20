@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fastapi-sm"
-version = { from = "fastapi_sm/__init__.py" }
+dynamic = ["version"]
 description = "FastAPI-friendly Chinese national cryptography (SM2/SM3/SM4) toolkit with unified backends, password hashing and transparent encrypted fields."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -34,7 +34,10 @@ tortoise = ["tortoise-orm>=0.20"]
 all = ["snowland-smx", "gmssl-pyx", "sqlalchemy>=2.0", "tortoise-orm>=0.20"]
 
 [project.urls]
-Homepage = "https://github.com/astar/fastapi-sm"
+Homepage = "https://github.com/snowland-gm/fastapi-sm"
+
+[tool.setuptools.dynamic]
+version = { attr = "fastapi_sm.__version__" }
 
 [tool.setuptools.packages.find]
 include = ["fastapi_sm*"]

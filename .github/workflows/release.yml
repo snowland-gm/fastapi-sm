@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    # 可信发布（OIDC）需要 id-token 写权限；如改用 token 发布可去掉
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+
+      - name: Verify version matches tag
+        # 发布前确认源码 __version__ 与 release tag 一致，避免打错包
+        run: |
+          python - <<'PY'
+          import fastapi_sm, sys
+          tag = "${{ github.event.release.tag_name }}"
+          expected = "v" + fastapi_sm.__version__
+          if tag != expected:
+              sys.exit(f"版本不一致：tag={tag!r} 但 __version__={expected!r}")
+          print("version ok:", expected)
+          PY
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Publish to PyPI (trusted publishing)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # 默认使用 PyPI 可信发布（OIDC），无需配置 token。
+        # 如需改用 token 发布，取消下面注释并在仓库 Secrets 配置 PYPI_API_TOKEN：
+        # with:
+        #   password: ${{ secrets.PYPI_API_TOKEN }}

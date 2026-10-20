@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          # 安装 ORM 适配 + 纯 Python 的 pysmx 后端（保证各版本均可构建）
+          pip install -e ".[sqlalchemy,tortoise]"
+          pip install snowland-smx
+          # gmssl 为原生扩展，可能缺少某些解释器版本的预编译包；安装失败不阻断 CI
+          pip install gmssl-pyx || echo "gmssl-pyx 在当前解释器不可用，跳过"
+
+      - name: Run tests
+        run: pytest -v

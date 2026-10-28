@@ -12,9 +12,15 @@
 16 字节；SM2 公钥为各后端约定的原始公钥字节（不同后端之间不保证可互验，
 与 snowland-jwt 的约束一致）。
 """
-from abc import ABCMeta
+from abc import ABC, ABCMeta
 
-from snowland_jwt.backends import CryptoBackend as _CryptoBackend
+try:
+    from snowland_jwt.backends import CryptoBackend as _CryptoBackend
+except ImportError:
+    # snowland-jwt 是本包的声明依赖，正常环境由安装流程自动安装并使用其基类；
+    # 此处仅在其缺失时兜底，避免整包因该依赖未装而导入失败。后端选择仍按
+    # 实际可用的底层库（snowland-smx / gmssl-pyx）自动挑选。
+    _CryptoBackend = ABC
 
 # SM3 摘要长度（字节）
 SM3_DIGEST_SIZE = 32

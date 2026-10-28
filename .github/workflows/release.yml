@@ -26,6 +26,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install build
 
+      - name: Build distributions
+        run: python -m build
+
+      - name: Install built wheel (with dependencies)
+        # 安装产物，确保 snowland-jwt 等依赖就绪后再做版本校验
+        run: pip install dist/*.whl
+
       - name: Verify version matches tag
         # 发布前确认源码 __version__ 与 release tag 一致，避免打错包
         run: |
@@ -37,9 +44,6 @@ jobs:
               sys.exit(f"版本不一致：tag={tag!r} 但 __version__={expected!r}")
           print("version ok:", expected)
           PY
-
-      - name: Build distributions
-        run: python -m build
 
       - name: Publish to PyPI (trusted publishing)
         uses: pypa/gh-action-pypi-publish@release/v1

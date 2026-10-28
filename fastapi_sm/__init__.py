@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-__version__ = "0.1"
+__version__ = "0.1.post1"
 
 from fastapi_sm.hasher import BasePasswordHasher, SM3PasswordHasher
 from fastapi_sm.database import (
